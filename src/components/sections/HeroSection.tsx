@@ -86,7 +86,7 @@ export default function HeroSection() {
           variants={fadeInUp}
           custom={0.2}
         >
-          Master of Computer Applications Student | Web Developer | Creative Problem Solver
+          Master of Computer Applications Graduate | Java Developer | Web Developer | Creative Problem Solver
         </motion.p>
         <motion.div
           className="mt-5 sm:mt-8 sm:flex sm:flex-wrap sm:justify-center lg:justify-center items-center space-y-3 sm:space-y-0 sm:space-x-4" // Added flex-wrap and items-center

@@ -165,54 +165,62 @@ const skillsData = {
 };
 
 const achievementsData = [
-     {
-        id: 'ach-cert-java',
-        type: 'Certificate',
-        title: 'Learn Java Programming - Beginner to Master',
-        issuer: 'Abdul Bari, Udemy',
-        description: null, // No extra description needed
-        icon: <BookCheck className="h-5 w-5 text-primary" />,
-    },
-    {
-        id: 'ach-cert-pgdca',
-        type: 'Certificate',
-        title: 'Post Graduate Diploma in Computer Applications (PGDCA)',
-        issuer: '', // No specific issuer mentioned
-        description: null, // No extra description needed
-        icon: <BookCheck className="h-5 w-5 text-primary" />,
-    },
-    {
-        id: 'ach-rank-gfg',
-        type: 'Ranking',
-        title: 'Secured 77th rank on GeeksforGeeks',
-        issuer: null,
-        description: 'Among the top performers at Siksha ‘O’ Anusandhan University.',
-        icon: <Star className="h-5 w-5 text-primary" />,
-    },
-    {
-        id: 'ach-sports',
-        type: 'Sports',
-        title: 'Shot Put and Javelin Champion',
-        issuer: null,
-        description: 'Excelling in throwing events with exceptional power and precision.',
-        icon: <Trophy className="h-5 w-5 text-primary" />,
-    },
-    {
-        id: 'ach-extra-dance',
-        type: 'Extracurricular',
-        title: 'Dancing',
-        issuer: null,
-        description: '', // Can be empty if no description needed
-        icon: <Activity className="h-5 w-5 text-primary" />,
-    },
-     {
-        id: 'ach-extra-news',
-        type: 'Extracurricular',
-        title: 'Reading Newspapers',
-         issuer: null,
-        description: '', // Can be empty if no description needed
-        icon: <Newspaper className="h-5 w-5 text-primary" />,
-    },
+  {
+    id: 'ach-cert-dsa',
+    type: 'Certificate',
+    title: 'Data Structures and Algorithms Complete Course - CPP & JAVA',
+    issuer: 'GeeksforGeeks (GfG), Udemy',
+    description: null,
+    icon: <Code className="h-5 w-5 text-primary" />,
+  },
+  {
+    id: 'ach-cert-java',
+    type: 'Certificate',
+    title: 'Learn Java Programming - Beginner to Master',
+    issuer: 'Abdul Bari, Udemy',
+    description: null,
+    icon: <BookCheck className="h-5 w-5 text-primary" />,
+  },
+  {
+    id: 'ach-cert-pgdca',
+    type: 'Certificate',
+    title: 'Post Graduate Diploma in Computer Applications (PGDCA)',
+    issuer: '', // No specific issuer mentioned
+    description: null, // No extra description needed
+    icon: <BookCheck className="h-5 w-5 text-primary" />,
+  },
+  {
+    id: 'ach-rank-gfg',
+    type: 'Ranking',
+    title: 'Secured 77th rank on GeeksforGeeks',
+    issuer: null,
+    description: 'Among the top performers at Siksha ‘O’ Anusandhan University.',
+    icon: <Star className="h-5 w-5 text-primary" />,
+  },
+  {
+    id: 'ach-sports',
+    type: 'Sports',
+    title: 'Shot Put and Javelin Champion',
+    issuer: null,
+    description: 'Excelling in throwing events with exceptional power and precision.',
+    icon: <Trophy className="h-5 w-5 text-primary" />,
+  },
+  {
+    id: 'ach-extra-dance',
+    type: 'Extracurricular',
+    title: 'Dancing',
+    issuer: null,
+    description: '', // Can be empty if no description needed
+    icon: <Activity className="h-5 w-5 text-primary" />,
+  },
+   {
+    id: 'ach-extra-news',
+    type: 'Extracurricular',
+    title: 'Reading Newspapers',
+     issuer: null,
+    description: '', // Can be empty if no description needed
+    icon: <Newspaper className="h-5 w-5 text-primary" />,
+  },
 ];
 
 const certificatesData = achievementsData.filter(item => item.type === 'Certificate');
