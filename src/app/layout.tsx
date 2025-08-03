@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
-// Removed specific Geist font imports as they might not be needed and simplify the example
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster'; // Import Toaster
+import { Toaster } from '@/components/ui/toaster'; 
 
 export const metadata: Metadata = {
-  title: "Ayesha's Ascent - Portfolio", // Updated Title
-  description: "Ayesha Taranum's Personal Portfolio Website", // Updated Description
+  title: "Ayesha Taranum", 
+  description: "Ayesha Taranum's Personal Portfolio Website", 
 };
 
 export default function RootLayout({

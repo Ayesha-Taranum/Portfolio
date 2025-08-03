@@ -36,7 +36,8 @@ import {
   Newspaper,
   Activity,
   Trophy,
-  BookCheck // Icon for certificates
+  BookCheck,
+  ExternalLink
 } from 'lucide-react';
 
 // --- Data Imports (Simulated - In a real app, import from actual data sources) ---
@@ -47,7 +48,7 @@ const educationData = [
     degree: 'Master of Computer Application (MCA)',
     institution: 'Institute of Technical Education and Research, SOA deemed to be university, Bhubaneswar',
     years: '2023-25',
-    grade: 'CGPA: 8.27',
+    grade: 'CGPA: 8.38',
     icon: <GraduationCap className="h-5 w-5 text-primary" />,
   },
   {
@@ -81,7 +82,6 @@ const projectsData = [
     id: 'proj-ams',
     title: 'Smart Attendance Tracker',
     description: 'A web-based application to modernize attendance tracking for employees and students.',
-    date: '23rd July - 4th August 2024',
     techStack: ['Java', 'MySQL', 'JSP', 'Servlets', 'HTML', 'CSS', 'JavaScript', 'Apache Tomcat'],
     features: [
       'Developed a full-stack web application to digitize attendance for over 250 users, ensuring real-time access and monitoring.',
@@ -94,7 +94,6 @@ const projectsData = [
     id: 'proj-recipe',
     title: 'Recipe Finder App',
     description: 'Search-driven web application that recommends recipes based on available ingredients.',
-    date: '16th February - 22nd February 2025',
     techStack: ['AngularJS', 'Spring Boot', 'Tailwind CSS', 'TypeScript'],
     features: [
       'Built a search-based web app to suggest recipes from user-input ingredients using efficient queries and lightweight APIs.',
@@ -107,7 +106,6 @@ const projectsData = [
     id: 'proj-expenso',
     title: 'ExpensoMate Backend API',
     description: 'A comprehensive RESTful API for expense tracking with budget management and savings goals.',
-    date: 'March 2025',
     techStack: ['Spring Boot 3.5.3', 'Java 17', 'Maven'],
     features: [
       'Built a complete backend system enabling user authentication, category-wise expense tracking, budget setting, and savings goal management.',
@@ -234,19 +232,19 @@ type FileItem = {
 
 
 // Update the fileTree to include the certificates file
-const fileTree: FileItem[] = [ // Added type annotation
+const fileTree: FileItem[] = [
   {
     id: 'folder-education',
     name: 'Education',
     type: 'folder',
-    icon: <GraduationCap className="h-4 w-4 mr-2 text-blue-400" />,
+    icon: <GraduationCap className="h-4 w-4 mr-2 text-blue-500" />,
     children: [
       {
         id: 'education-all',
         name: 'education.info',
         type: 'file',
         section: 'education',
-        icon: <FileText className="h-4 w-4 mr-2 text-gray-400" />,
+        icon: <BookOpen className="h-4 w-4 mr-2 text-blue-400" />,
       }
     ],
   },
@@ -254,27 +252,27 @@ const fileTree: FileItem[] = [ // Added type annotation
     id: 'folder-projects',
     name: 'Projects',
     type: 'folder',
-    icon: <Code className="h-4 w-4 mr-2 text-purple-400" />,
+    icon: <Code className="h-4 w-4 mr-2 text-purple-500" />,
     children: projectsData.map(proj => ({
-      id: proj.id, // Use project ID for file ID
-      name: `${proj.title.replace(/\s+/g, '-').toLowerCase()}.proj`, // Cleaned name
+      id: proj.id,
+      name: `${proj.title.replace(/\s+/g, '-').toLowerCase()}.proj`,
       type: 'file',
       section: 'projects',
-      icon: <FileText className="h-4 w-4 mr-2 text-gray-400" />,
+      icon: <FileText className="h-4 w-4 mr-2 text-purple-400" />,
     })),
   },
   {
     id: 'folder-skills',
     name: 'Skills',
     type: 'folder',
-    icon: <Brain className="h-4 w-4 mr-2 text-green-400" />,
+    icon: <Brain className="h-4 w-4 mr-2 text-green-500" />,
     children: [
       {
         id: 'skills-all',
         name: 'all-skills.info',
         type: 'file',
         section: 'skills',
-        icon: <FileText className="h-4 w-4 mr-2 text-gray-400" />
+        icon: <Star className="h-4 w-4 mr-2 text-green-400" />
       }
     ],
   },
@@ -282,23 +280,23 @@ const fileTree: FileItem[] = [ // Added type annotation
     id: 'folder-achievements',
     name: 'Achievements & Certs',
     type: 'folder',
-    icon: <Award className="h-4 w-4 mr-2 text-yellow-400" />,
+    icon: <Trophy className="h-4 w-4 mr-2 text-yellow-500" />,
     children: [
-       { // Added the certificates file
+      {
         id: 'achievements-certificates',
         name: 'certificates.info',
         type: 'file',
         section: 'achievements',
-        contentType: 'certificates', // Specify content type
-        icon: <FileText className="h-4 w-4 mr-2 text-gray-400" />,
+        contentType: 'certificates',
+        icon: <Award className="h-4 w-4 mr-2 text-yellow-400" />,
       },
-      { // The original achievements file (now includes everything except standalone certs list)
+      {
         id: 'achievements-all',
         name: 'achievements.info',
         type: 'file',
         section: 'achievements',
-        contentType: 'all', // Specify content type
-        icon: <FileText className="h-4 w-4 mr-2 text-gray-400" />,
+        contentType: 'all',
+        icon: <Star className="h-4 w-4 mr-2 text-yellow-400" />,
       },
     ],
   },
@@ -471,23 +469,34 @@ const ProjectContent = ({ item }: { item: typeof projectsData[0] | undefined }) 
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <Card className="m-4 shadow-none border-none bg-transparent">
         <CardHeader className="pb-2">
-          <CardTitle className="text-xl flex items-center text-primary">
-            {item.icon} <span className="ml-2">{item.title}</span>
-          </CardTitle>
-          <CardDescription className="text-base pt-1 text-muted-foreground">{item.date}</CardDescription>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-xl flex items-center text-primary">
+              {item.icon} <span className="ml-2">{item.title}</span>
+            </CardTitle>
+            {item.link && (
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+              >
+                View on GitHub <ExternalLink className="h-4 w-4" />
+              </a>
+            )}
+          </div>
         </CardHeader>
         <CardContent className="text-base text-foreground space-y-4">
           <p>{item.description}</p>
           <div>
-            <h4 className="font-semibold mb-2 text-primary/90 text-lg">Key Features:</h4> {/* Larger heading */}
-            <ul className="list-disc list-inside space-y-1 text-sm marker:text-primary/80"> {/* Added primary marker color */}
+            <h4 className="font-semibold mb-2 text-primary/90 text-lg">Key Features:</h4>
+            <ul className="list-disc list-inside space-y-1 text-sm marker:text-primary/80">
               {item.features.map((feature, i) => <li key={i}>{feature}</li>)}
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-2 text-primary/90 text-lg">Technologies:</h4> {/* Larger heading */}
+            <h4 className="font-semibold mb-2 text-primary/90 text-lg">Technologies:</h4>
             <div className="flex flex-wrap gap-2">
-              {item.techStack.map((tech, i) => <Badge key={i} variant="secondary" className="text-sm">{tech}</Badge>)} {/* Slightly larger badge */}
+              {item.techStack.map((tech, i) => <Badge key={i} variant="secondary" className="text-sm">{tech}</Badge>)}
             </div>
           </div>
         </CardContent>
@@ -521,29 +530,41 @@ const FileTreeItem = ({ item, level = 0, onFileSelect, onFolderToggle, selectedF
 
   const icon = item.type === 'folder' ? (isOpen ? <ChevronDown className="h-4 w-4 mr-1" /> : <ChevronRight className="h-4 w-4 mr-1" />) : item.icon;
 
+  // Find the matching project data if this is a project file
+  const projectData = item.section === 'projects' ? projectsData.find(p => p.id === item.id) : null;
 
   return (
     <div>
       <div
         onClick={handleClick}
-        style={{ paddingLeft: `${level * 1}rem` }} // Adjust padding
-        className={`flex items-center py-1.5 pl-2 pr-1 cursor-pointer rounded hover:bg-muted/50 text-sm transition-colors ${isSelected ? 'bg-accent/20 text-accent-foreground font-medium' : 'text-muted-foreground hover:text-foreground'}`} // Added font-medium for selected
+        style={{ paddingLeft: `${level * 1}rem` }}
+        className={`flex items-center py-1.5 pl-2 pr-1 cursor-pointer rounded hover:bg-muted/50 text-sm transition-colors ${isSelected ? 'bg-accent/20 text-accent-foreground font-medium' : 'text-muted-foreground hover:text-foreground'}`}
       >
-         {/* Folder icon or File icon */}
-        {item.type === 'folder' ? icon : React.cloneElement(icon, { className: "h-4 w-4 mr-2" })} {/* Added mr-2 for file icon */}
-        <span className="flex-grow truncate">{item.name}</span> {/* Added truncate */}
+        {item.type === 'folder' ? icon : React.cloneElement(icon, { className: "h-4 w-4 mr-2" })}
+        <span className="flex-grow truncate">{item.name}</span>
+        {projectData?.link && (
+          <a
+            href={projectData.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="ml-2 opacity-50 hover:opacity-100 transition-opacity"
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        )}
       </div>
       {item.type === 'folder' && isOpen && item.children && (
-        <div className="ml-2"> {/* Indent children slightly */}
+        <div className="ml-2">
           {item.children.map((child) => (
             <FileTreeItem
               key={child.id}
               item={child}
               level={level + 1}
               onFileSelect={onFileSelect}
-              onFolderToggle={onFolderToggle} // Pass down
+              onFolderToggle={onFolderToggle}
               selectedFileId={selectedFileId}
-              isOpen={false} // Children are files or folders managed by parent state
+              isOpen={false}
             />
           ))}
         </div>
