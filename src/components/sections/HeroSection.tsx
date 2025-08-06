@@ -48,7 +48,11 @@ export default function HeroSection() {
    const resumeDownloadUrl = "https://drive.google.com/uc?export=download&id=1C0X3JsG7M256ypRlNKUBbBWL03D6A_U1";
 
   return (
-    <section ref={targetRef} id="home" className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section 
+      ref={targetRef} 
+      id="home" 
+      className="relative h-[100dvh] flex items-center justify-center text-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+    >
        {/* Subtle Background Gradient */}
        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-background via-secondary/10 to-background"></div>
 
@@ -128,16 +132,31 @@ export default function HeroSection() {
         </motion.div>
       </motion.div>
 
-      {/* Add Scroll Down Indicator */}
-       <motion.div
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-            animate={{ y: ["0%", "20%", "0%"] }}
-            transition={bounce}
-        >
-            <ArrowDown className="w-6 h-6 text-primary" />
-       </motion.div>
+      {/* Updated Scroll Down Indicator with subtle styling and delayed animation */}
+      <motion.div
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+        initial={{ opacity: 0, y: 0 }}
+        animate={{ opacity: 1, y: [0, 10, 0] }}
+        transition={{
+          opacity: { delay: 1.2, duration: 0.6 },
+          y: {
+            delay: 1.2,
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut"
+          }
+        }}
+      >
+        <div className="relative group cursor-pointer">
+          <div className="absolute inset-0 rounded-full bg-white/5 backdrop-blur-[2px] group-hover:bg-white/10 transition-all duration-300" />
+          <div className="relative p-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-[2px] shadow-lg transform group-hover:scale-110 transition-all duration-300">
+            <ArrowDown className="w-6 h-6 text-primary/80 group-hover:text-white transition-colors duration-300" />
+          </div>
+        </div>
+      </motion.div>
 
-       {/* Keep blob animation CSS */}
+      {/* Keep existing blob animation CSS */}
       <style jsx>{`
         @keyframes blob {
           0% { transform: translate(0px, 0px) scale(1); }
