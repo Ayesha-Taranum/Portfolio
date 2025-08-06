@@ -89,38 +89,41 @@ export default function HeroSection() {
           Master of Computer Applications Graduate | Java Developer | Web Developer | Creative Problem Solver
         </motion.p>
         <motion.div
-          className="mt-5 sm:mt-8 sm:flex sm:flex-wrap sm:justify-center lg:justify-center items-center space-y-3 sm:space-y-0 sm:space-x-4" // Added flex-wrap and items-center
+          className="mt-5 sm:mt-8 flex flex-col sm:flex-row justify-center items-center max-w-2xl mx-auto gap-3 sm:gap-4" // Added max-width and centering
           variants={fadeInUp}
           custom={0.4}
         >
-          {/* Get in Touch Button uses the new gradient */}
-          <Button size="lg" asChild className="bg-gradient-accent bg-[#24998d] text-accent-foreground hover:opacity-90 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-            <Link href="#contact">
-              Get in Touch
-            </Link>
-          </Button>
-          {/* Resume Download Button */}
-          <Button variant="outline" size="lg" asChild className="shadow-sm hover:shadow-md transform hover:-translate-y-1 transition hover:bg-[#24998d]">
-            <a href={resumeDownloadUrl} download="Ayesha_Taranum_Resume.pdf"> {/* Use the direct download link and suggest filename */}
-              <Download className="mr-2 h-4 w-4" /> Download Resume
-            </a>
-          </Button>
-           <div className="flex justify-center space-x-4 pt-2 sm:pt-0 w-full sm:w-auto"> {/* Adjust width for wrapping */}
-             <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-primary transition transform hover:scale-110 hover:bg-[#24998d] hover:text-white">
-               <a href="https://github.com/Ayesha-Taranum" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                 <Github />
-               </a>
-             </Button>
-             <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-primary transition transform hover:scale-110 hover:bg-[#24998d] hover:text-white">
-               <a href="https://linkedin.com/in/ayesha-taranum-0742091a7" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                 <Linkedin />
-               </a>
-             </Button>
-             <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-primary transition transform hover:scale-110 hover:bg-[#24998d] hover:text-white">
-               <a href="mailto:ayeshataranum24343@gmail.com" aria-label="Email">
-                 <Mail />
-               </a>
-             </Button>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-auto"> {/* Container for main buttons */}
+            {/* Get in Touch Button */}
+            <Button size="lg" asChild className="w-auto bg-gradient-accent bg-[#24998d] text-accent-foreground hover:opacity-90 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+              <Link href="#contact">
+                Get in Touch
+              </Link>
+            </Button>
+            {/* Resume Download Button */}
+            <Button variant="outline" size="lg" asChild className="w-auto shadow-sm hover:shadow-md transform hover:-translate-y-1 transition hover:bg-[#24998d]">
+              <a href={resumeDownloadUrl} download="Ayesha_Taranum_Resume.pdf">
+                <Download className="mr-2 h-4 w-4" /> Download Resume
+              </a>
+            </Button>
+          </div>
+          {/* Social Media Icons */}
+          <div className="flex justify-center gap-4 mt-3 sm:mt-0">
+            <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-white hover:bg-[#24998d] transition transform hover:scale-110">
+              <a href="https://github.com/Ayesha-Taranum" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <Github />
+              </a>
+            </Button>
+            <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-white hover:bg-[#24998d] transition transform hover:scale-110">
+              <a href="https://linkedin.com/in/ayesha-taranum-0742091a7" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <Linkedin />
+              </a>
+            </Button>
+            <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-white hover:bg-[#24998d] transition transform hover:scale-110">
+              <a href="mailto:ayeshataranum24343@gmail.com" aria-label="Email">
+                <Mail />
+              </a>
+            </Button>
           </div>
         </motion.div>
       </motion.div>
