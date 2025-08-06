@@ -134,7 +134,7 @@ export default function HeroSection() {
 
       {/* Updated Scroll Down Indicator with subtle styling and delayed animation */}
       <motion.div
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-6 sm:bottom-10 left-0 right-0 z-10 flex justify-center items-center"
         initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: [0, 10, 0] }}
         transition={{
@@ -148,7 +148,15 @@ export default function HeroSection() {
           }
         }}
       >
-        <div className="relative group cursor-pointer">
+        <div 
+          className="relative group cursor-pointer"
+          onClick={() => {
+            const aboutSection = document.getElementById('about');
+            if (aboutSection) {
+              aboutSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+        >
           <div className="absolute inset-0 rounded-full bg-white/5 backdrop-blur-[2px] group-hover:bg-white/10 transition-all duration-300" />
           <div className="relative p-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-[2px] shadow-lg transform group-hover:scale-110 transition-all duration-300">
             <ArrowDown className="w-6 h-6 text-primary/80 group-hover:text-white transition-colors duration-300" />
