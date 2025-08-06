@@ -313,20 +313,48 @@ const fileTree: FileItem[] = [
 
 const EducationContent = () => {
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-      {educationData.map((edu) => (
-        <Card key={edu.id} className="m-4 shadow-none border-none bg-transparent">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center text-primary">
-              {edu.icon} <span className="ml-2">{edu.degree}</span>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      transition={{ duration: 0.6, staggerChildren: 0.1 }}
+      className="p-6 space-y-6"
+    >
+      <div className="mb-8">
+        <h3 className="text-2xl font-bold text-foreground mb-2">Educational Background</h3>
+        <p className="text-muted-foreground">My academic journey and qualifications</p>
+      </div>
+      
+      {educationData.map((edu, index) => (
+        <motion.div
+          key={edu.id}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: index * 0.1, duration: 0.5 }}
+        >
+          <Card className="border border-border/50 bg-gradient-to-r from-background/80 to-muted/5 hover:shadow-lg transition-all duration-300 hover:border-primary/30">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg flex items-start space-x-3 text-foreground">
+                <div className="mt-1">{edu.icon}</div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-primary mb-1">{edu.degree}</h4>
+                  <p className="text-sm text-muted-foreground font-medium">{edu.institution}</p>
+                </div>
             </CardTitle>
-            <CardDescription className="text-base pt-1 text-muted-foreground">{edu.institution}</CardDescription>
           </CardHeader>
-          <CardContent className="text-base text-foreground">
-            <p><span className="font-semibold">Years:</span> {edu.years}</p>
-            <p><span className="font-semibold">Grade:</span> {edu.grade}</p>
+            <CardContent className="pt-0">
+              <div className="flex flex-wrap gap-4 text-sm">
+                <div className="flex items-center space-x-2">
+                  <Calendar className="w-4 h-4 text-primary" />
+                  <span className="text-foreground">{edu.years}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Trophy className="w-4 h-4 text-primary" />
+                  <span className="text-foreground">{edu.grade}</span>
+                </div>
+              </div>
           </CardContent>
         </Card>
+        </motion.div>
       ))}
     </motion.div>
   );
@@ -343,25 +371,50 @@ const SkillsContent = () => {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-      {Object.entries(skillCategories).map(([category, skills]) => (
-        <Card key={category} className="m-4 shadow-none border-none bg-transparent">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xl text-primary">{category}</CardTitle>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      transition={{ duration: 0.6, staggerChildren: 0.1 }}
+      className="p-6 space-y-8"
+    >
+      <div className="mb-8">
+        <h3 className="text-2xl font-bold text-foreground mb-2">Technical Skills & Expertise</h3>
+        <p className="text-muted-foreground">Technologies, frameworks, and skills I work with</p>
+      </div>
+      
+      {Object.entries(skillCategories).map(([category, skills], categoryIndex) => (
+        <motion.div
+          key={category}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: categoryIndex * 0.1, duration: 0.5 }}
+        >
+          <Card className="border border-border/50 bg-gradient-to-br from-background/90 to-muted/5 hover:shadow-lg transition-all duration-300">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg text-primary font-semibold">{category}</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-wrap gap-3">
-            {skills.map((skill: { name: string; icon: JSX.Element }, index: number) => ( // Added index for key
+            <CardContent>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill: { name: string; icon: JSX.Element }, index: number) => (
+                  <motion.div
+                    key={`${category}-${index}`}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: (categoryIndex * 0.1) + (index * 0.03), duration: 0.3 }}
+                  >
               <Badge
-                key={`${category}-${index}`} // More robust key
                 variant="outline"
-                className="text-base px-3 py-1 flex items-center border-primary/50"
+                      className="text-sm px-3 py-1.5 flex items-center border-primary/30 bg-background/50 hover:bg-primary/10 hover:border-primary/60 transition-all duration-200 cursor-default"
               >
-                {React.cloneElement(skill.icon, { className: "mr-2" })}
+                      {React.cloneElement(skill.icon, { className: "mr-2 w-4 h-4" })}
                 {skill.name}
               </Badge>
+                  </motion.div>
             ))}
+              </div>
           </CardContent>
         </Card>
+        </motion.div>
       ))}
     </motion.div>
   );
@@ -472,41 +525,105 @@ const CertificatesContent = () => {
 
 // Component to display Project details
 const ProjectContent = ({ item }: { item: typeof projectsData[0] | undefined }) => {
-  if (!item) return <div className="p-6 text-muted-foreground">Select a project to view details.</div>;
+  if (!item) {
+    return (
+      <div className="p-6 flex items-center justify-center h-full">
+        <div className="text-center">
+          <Code className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+          <p className="text-muted-foreground">Select a project to view details</p>
+        </div>
+      </div>
+    );
+  }
+  
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-      <Card className="m-4 shadow-none border-none bg-transparent">
-        <CardHeader className="pb-2">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-xl flex items-center text-primary">
-              {item.icon} <span className="ml-2">{item.title}</span>
-            </CardTitle>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      transition={{ duration: 0.6 }}
+      className="p-6"
+    >
+      <Card className="border border-border/50 bg-gradient-to-br from-background/90 to-muted/5 hover:shadow-lg transition-all duration-300">
+        <CardHeader className="pb-4">
+          <div className="flex items-start justify-between">
+            <div className="flex items-start space-x-3">
+              <div className="mt-1">{item.icon}</div>
+              <div>
+                <CardTitle className="text-xl font-bold text-primary mb-2">{item.title}</CardTitle>
+                <CardDescription className="text-base text-muted-foreground leading-relaxed">
+                  {item.description}
+                </CardDescription>
+              </div>
+            </div>
             {item.link && (
-              <a
+              <motion.a
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-all duration-200 text-sm font-medium"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                View on GitHub <ExternalLink className="h-4 w-4" />
-              </a>
+                <span>View Project</span>
+                <ExternalLink className="h-4 w-4" />
+              </motion.a>
             )}
           </div>
         </CardHeader>
-        <CardContent className="text-base text-foreground space-y-4">
-          <p>{item.description}</p>
-          <div>
-            <h4 className="font-semibold mb-2 text-primary/90 text-lg">Key Features:</h4>
-            <ul className="list-disc list-inside space-y-1 text-sm marker:text-primary/80">
-              {item.features.map((feature, i) => <li key={i}>{feature}</li>)}
-            </ul>
+        
+        <CardContent className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            <h4 className="font-semibold mb-3 text-primary flex items-center">
+              <Star className="w-4 h-4 mr-2" />
+              Key Features
+            </h4>
+            <div className="space-y-2">
+              {item.features.map((feature, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + (i * 0.1), duration: 0.4 }}
+                  className="flex items-start space-x-3 p-3 rounded-lg bg-muted/20 border border-border/30"
+                >
+                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-foreground leading-relaxed">{feature}</p>
+                </motion.div>
+              ))}
           </div>
-          <div>
-            <h4 className="font-semibold mb-2 text-primary/90 text-lg">Technologies:</h4>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
+            <h4 className="font-semibold mb-3 text-primary flex items-center">
+              <Cpu className="w-4 h-4 mr-2" />
+              Technologies Used
+            </h4>
             <div className="flex flex-wrap gap-2">
-              {item.techStack.map((tech, i) => <Badge key={i} variant="secondary" className="text-sm">{tech}</Badge>)}
+              {item.techStack.map((tech, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.5 + (i * 0.05), duration: 0.3 }}
+                >
+                  <Badge 
+                    variant="secondary" 
+                    className="text-sm px-3 py-1 bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors duration-200"
+                  >
+                    {tech}
+                  </Badge>
+                </motion.div>
+              ))}
             </div>
-          </div>
+          </motion.div>
         </CardContent>
       </Card>
     </motion.div>
@@ -545,18 +662,32 @@ const FileTreeItem = ({ item, level = 0, onFileSelect, onFolderToggle, selectedF
     <div>
       <div
         onClick={handleClick}
-        style={{ paddingLeft: `${level * 1}rem` }}
-        className={`flex items-center py-1.5 pl-2 pr-1 cursor-pointer rounded hover:bg-muted/50 text-sm transition-colors ${isSelected ? 'bg-accent/20 text-accent-foreground font-medium' : 'text-muted-foreground hover:text-foreground'}`}
+        style={{ paddingLeft: `${level * 1.2}rem` }}
+        className={`group flex items-center py-2 pl-2 pr-2 cursor-pointer rounded-md mx-1 text-sm transition-all duration-200 ${
+          isSelected 
+            ? 'bg-primary/15 text-primary border border-primary/20 shadow-sm' 
+            : 'text-muted-foreground hover:text-foreground hover:bg-muted/30 hover:border hover:border-border/30'
+        }`}
       >
-        {item.type === 'folder' ? icon : React.cloneElement(icon, { className: "h-4 w-4 mr-2" })}
+        {item.type === 'folder' ? (
+          <div className="flex items-center">
+            {icon}
+            <span className="flex-grow truncate ml-2 font-medium">{item.name}</span>
+          </div>
+        ) : (
+          <>
+            {React.cloneElement(icon, { className: "h-4 w-4 mr-2 flex-shrink-0" })}
         <span className="flex-grow truncate">{item.name}</span>
+          </>
+        )}
         {projectData?.link && (
           <a
             href={projectData.link}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="ml-2 opacity-50 hover:opacity-100 transition-opacity"
+            className="ml-2 opacity-0 group-hover:opacity-70 hover:!opacity-100 transition-all duration-200 p-1 rounded hover:bg-background/50"
+            title="Open project"
           >
             <ExternalLink className="h-3.5 w-3.5" />
           </a>
@@ -643,16 +774,36 @@ export default function InteractivePortfolioSection() {
           Explore My Journey
         </motion.h2>
 
-        {/* VS Code like UI */}
-        <Card className="shadow-xl border border-muted/30 overflow-hidden bg-card/80 backdrop-blur-sm" style={{ height: '70vh' }}> {/* Increased height slightly */}
-          <ResizablePanelGroup direction="horizontal" className="h-full">
-            {/* File Explorer Panel */}
-            <ResizablePanel defaultSize={25} minSize={15} maxSize={40}>
-              <div className="flex flex-col h-full">
-                <div className="p-3 border-b border-muted/30 bg-muted/10"> {/* Added slight background */}
-                  <h3 className="text-sm font-semibold text-foreground">EXPLORER</h3>
+        {/* Modern VS Code like UI */}
+        <div className="relative">
+          {/* Outer container with modern styling */}
+          <div className="rounded-xl border border-border/50 bg-gradient-to-br from-background/95 to-muted/5 backdrop-blur-xl shadow-2xl overflow-hidden" style={{ height: '75vh' }}>
+            {/* Top bar with traffic lights */}
+            <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-muted/20 to-muted/10 border-b border-border/30">
+              <div className="flex items-center space-x-2">
+                <div className="flex space-x-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                 </div>
-                <ScrollArea className="flex-grow p-2">
+                <span className="text-sm font-medium text-foreground/80 ml-3">Portfolio Explorer</span>
+              </div>
+              <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+                <Settings className="w-4 h-4" />
+              </div>
+            </div>
+            <ResizablePanelGroup direction="horizontal" className="h-full bg-gradient-to-br from-background via-background/98 to-muted/5">
+              {/* File Explorer Panel */}
+              <ResizablePanel defaultSize={28} minSize={20} maxSize={45}>
+                <div className="flex flex-col h-full bg-gradient-to-b from-muted/5 to-background/50">
+                  {/* Explorer Header */}
+                  <div className="px-4 py-3 border-b border-border/20 bg-gradient-to-r from-muted/10 to-background/30">
+                    <div className="flex items-center space-x-2">
+                      <Folder className="w-4 h-4 text-blue-500" />
+                      <h3 className="text-sm font-semibold text-foreground tracking-wide">EXPLORER</h3>
+                    </div>
+                  </div>
+                  <ScrollArea className="flex-grow px-2 py-1">
                   {fileTree.map(item => (
                     <FileTreeItem
                       key={item.id}
@@ -668,31 +819,39 @@ export default function InteractivePortfolioSection() {
               </div>
             </ResizablePanel>
 
-            <ResizableHandle withHandle />
+              <ResizableHandle withHandle className="bg-border/30 hover:bg-border/50 transition-colors" />
 
             {/* Content Display Panel */}
-            <ResizablePanel defaultSize={75}>
-                <div className="flex flex-col h-full">
-                    {/* Tab Bar (Optional) */}
+              <ResizablePanel defaultSize={72}>
+                  <div className="flex flex-col h-full bg-gradient-to-br from-background/95 to-muted/2">
+                      {/* Enhanced Tab Bar */}
                     {selectedFile ? (
-                         <div className="p-2 border-b border-muted/30 bg-muted/20 flex items-center">
-                             {/* Ensure file icon is used here */}
-                             {selectedFile.type === 'file' && selectedFile.icon && React.cloneElement(selectedFile.icon, { className: "h-4 w-4 mr-2" })}
+                           <div className="px-4 py-2.5 border-b border-border/20 bg-gradient-to-r from-muted/8 to-background/40 flex items-center space-x-3">
+                               <div className="flex items-center space-x-2 px-3 py-1.5 rounded-md bg-background/50 border border-border/30">
+                                 {selectedFile.type === 'file' && selectedFile.icon && React.cloneElement(selectedFile.icon, { className: "h-4 w-4 text-primary" })}
                             <span className="text-sm font-medium text-foreground">{selectedFile.name}</span>
+                               </div>
+                               <div className="flex-1"></div>
+                               <div className="text-xs text-muted-foreground bg-muted/20 px-2 py-1 rounded-md">
+                                 {selectedFile.section?.toUpperCase()}
+                               </div>
                          </div>
                     ) : (
-                        <div className="p-2 border-b border-muted/30 bg-muted/20">
-                            <span className="text-sm font-medium text-muted-foreground italic">No file open</span>
+                          <div className="px-4 py-2.5 border-b border-border/20 bg-gradient-to-r from-muted/8 to-background/40">
+                              <span className="text-sm font-medium text-muted-foreground italic">No file selected</span>
                         </div>
                      )}
-                    <ScrollArea className="flex-grow">
-                       {/* Render the memoized content */}
+                      <ScrollArea className="flex-grow bg-gradient-to-br from-background via-background/98 to-muted/5">
+                         {/* Enhanced content area */}
+                         <div className="h-full">
                        {ActiveContent}
+                         </div>
                     </ScrollArea>
                 </div>
             </ResizablePanel>
           </ResizablePanelGroup>
-        </Card>
+          </div>
+        </div>
       </div>
     </section>
   );

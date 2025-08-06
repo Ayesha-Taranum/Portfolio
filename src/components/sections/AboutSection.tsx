@@ -34,6 +34,18 @@ export default function AboutSection() {
   const imageY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
   const textScale = useTransform(scrollYProgress, [0, 1], [0.95, 1]);
 
+  // Add scroll-based blur effect
+  const isInView = useTransform(scrollYProgress, [0.2, 0.4, 0.6, 0.8], [false, true, true, false]);
+  const [isScrollInView, setIsScrollInView] = useState(false);
+
+  // Update scroll state
+  React.useEffect(() => {
+    const unsubscribe = isInView.on('change', (latest) => {
+      setIsScrollInView(latest);
+    });
+    return unsubscribe;
+  }, [isInView]);
+
   const [isHovering, setIsHovering] = useState(false);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -96,7 +108,10 @@ export default function AboutSection() {
                 alt="Ayesha Taranum - Pixelated Background"
                 width={300}
                 height={400} // Changed height from 300 to 400
-                className="object-cover aspect-[3/4] absolute inset-0 filter blur-md transition-all duration-500 ease-out" // Changed aspect-square to aspect-[3/4]
+                className={cn(
+                  "object-cover aspect-[3/4] absolute inset-0 filter transition-all duration-1000 ease-out",
+                  isScrollInView ? "blur-none" : "blur-md"
+                )} // Changed aspect-square to aspect-[3/4], added scroll-based blur
                 priority
               />
 
@@ -105,8 +120,8 @@ export default function AboutSection() {
                 style={{
                   maskImage: `radial-gradient(circle at calc(50% + ${smoothMouseX.get()}px) calc(50% + ${smoothMouseY.get()}px), black 0%, black 48%, transparent 52%)`,
                   WebkitMaskImage: `radial-gradient(circle at calc(50% + ${smoothMouseX.get()}px) calc(50% + ${smoothMouseY.get()}px), black 0%, black 48%, transparent 52%)`,
-                  maskSize: isHovering ? '400%' : '0%',
-                  WebkitMaskSize: isHovering ? '400%' : '0%',
+                  maskSize: (isHovering && !isScrollInView) ? '400%' : '0%',
+                  WebkitMaskSize: (isHovering && !isScrollInView) ? '400%' : '0%',
                   maskRepeat: 'no-repeat',
                   WebkitMaskRepeat: 'no-repeat',
                   maskPosition: `calc(50% + ${smoothMouseX.get()}px) calc(50% + ${smoothMouseY.get()}px)`,

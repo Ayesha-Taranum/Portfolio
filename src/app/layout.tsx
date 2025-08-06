@@ -16,7 +16,8 @@ export default function RootLayout({
     // Ensure no leading/trailing space or comments directly inside the html tag before body
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`antialiased`} // Removed font variables for simplicity, assuming base styles handle fonts
+        className="antialiased"
+        suppressHydrationWarning // Add suppressHydrationWarning to body to handle browser extension class additions
       >
         {/* Main application content */}
         {children}
